@@ -6,7 +6,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 		},
 		actions: {
 			fetchGenerico: async (endpoint, data, metodo) => {
-				let url = process.env.BACKEND_URL;
+				let url = 'http://localhost:3001/';
+				console.log(JSON.stringify(data));
 				let response = await fetch(url + endpoint, {
 					method: metodo,
 					headers: { 'Content-Type': 'application/json' },

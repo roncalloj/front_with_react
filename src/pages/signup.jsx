@@ -10,16 +10,20 @@ export const Signup = () => {
 
 		const data = new FormData(e.target);
 		console.log(data.get('password'));
+		let name = data.get('name');
+		let lastname = data.get('last_name');
 		let email = data.get('email');
 		let password = data.get('password');
 
-		//let url = process.env.URL_BACKEND;
 		let obj = {
+			name: name,
+			lastname: lastname,
 			email: email,
 			password: password,
+			roles: [],
 		};
 
-		let response = await actions.fetchGenerico('signup', obj, 'POST');
+		let response = await actions.fetchGenerico('users/signup', obj, 'POST');
 
 		if (response.ok) {
 			console.log(response.statusText);
@@ -35,7 +39,7 @@ export const Signup = () => {
 
 	return (
 		<div>
-			{/* <div
+			<div
 				className="container d-flex justify-content-center align-items-center"
 				style={{ minHeight: '40vw', maxHeight: '100%', marginTop: '5%' }}
 			>
@@ -136,8 +140,8 @@ export const Signup = () => {
 						</form>
 					</div>
 				</div>
-			</div> */}
-			<div className="container">
+			</div>
+			{/* <div className="container">
 				<div className="row">
 					<div className="col-6">
 						<div class="mb-3">
@@ -158,7 +162,7 @@ export const Signup = () => {
 						</div>
 					</div>
 				</div>
-			</div>
+			</div> */}
 		</div>
 	);
 };

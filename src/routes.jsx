@@ -1,6 +1,5 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-//import yenv from 'yenv';
 import injectContext from './store/appContext';
 
 import { Layout } from './layout';
@@ -9,8 +8,7 @@ import { Signup } from './pages/signup';
 //import './styles/home.css';
 
 const AppRoutes = () => {
-	//const env = yenv();
-	const basename = '/' || '';
+	const basename = process.env.BASENAME || '';
 	return (
 		<>
 			<BrowserRouter basename={basename}>
