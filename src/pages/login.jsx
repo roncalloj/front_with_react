@@ -1,99 +1,98 @@
 import React, { useContext } from 'react';
-import '../../styles/home.css';
+import { Link, useNavigate } from 'react-router-dom';
 import { Context } from '../store/appContext';
 
 export const Login = () => {
 	const { store, actions } = useContext(Context);
-	//Test text
-	/*    const fetchGenerico = async (endpoint, data, metodo) => {
-           let url = process.env.URL_BACKEND
-           let response = await fetch(url + endpoint, {
-               method: metodo,
-               headers: { "Content-Type": "application/json" },
-               body: JSON.stringify(data)
-           })
-           return response;
-       } */
+	const navigate = useNavigate();
 
 	const login = async (e) => {
 		e.preventDefault();
-		console.log('Inside the fuction');
 
-		const data = new FormData(e.target);
-		console.log(data.get('password'));
-		let email = data.get('email');
-		let password = data.get('password');
+		const formData = new FormData(e.target);
+		let email = formData.get('email');
+		let password = formData.get('password');
 
-		//let url = process.env.BACKEND_URL;
-		let obj = {
+		let userData = {
 			email: email,
 			password: password,
 		};
 
-		let response = await actions.login('login', obj, 'POST');
+		let response = await actions.login(userData);
 
-		console.log(response);
-		if (response.ok) {
-			//console.log(response.statusText)
-			//response = await response.json()
-			alert(store.token);
-		} else {
-			alert('No se pudo hacer login');
-			return;
+		if (response.validation === 'ok') {
 		}
-	};
-
-	const prueba = async () => {
-		let response = await actions.fetchProtegido('hellosecure');
-		console.log(await response.json());
 	};
 
 	return (
 		<>
-			<div className="container">
-				<form onSubmit={(e) => login(e)}>
-					<div className="row d-flex">
-						<div className="col">
-							<div className="row">
-								<h1>Email</h1>
-							</div>
-							<div className="row">
-								<input
-									name="email"
-									placeholder="Escriba aquí su usuario"
-									type="email"
-								/>
-							</div>
-							<div className="row">
-								<h1>Password</h1>
-							</div>
-							<div className="row">
-								<input
-									name="password"
-									placeholder="Escriba aquí su clave"
-									type="string"
-								/>
-							</div>
-						</div>
-						<div className="col">
-							<div className="row">
-								<button className="btn btn-outline-success" type="submit">
-									Login
-								</button>
-							</div>
-							<div className="row">
-								<button
-									className="btn btn-outline-success"
-									type="button"
-									onClick={() => prueba()}
-								>
-									Prueba
-								</button>
-							</div>
-						</div>
-						<div className="col"></div>
+			<div
+				className="container d-flex justify-content-center align-items-center letraKurius"
+				style={{ minHeight: '40vw', maxHeight: '100%', marginTop: '5%' }}
+			>
+				<div
+					className="card text-center border-0"
+					style={{ minWidth: '50%', maxWidth: '100%', maxHeight: '100%' }}
+				>
+					<div
+						className="card-header cabezoteRegistro"
+						style={{ width: '100%' }}
+					>
+						<h3>Login</h3>
 					</div>
-				</form>
+					<div
+						className="card-body cajatextoRegistro"
+						style={{ width: '100%' }}
+					>
+						<form onSubmit={(e) => login(e)}>
+							<div className=" d-flex flex-column bd-highlight mb-3">
+								<div className="mb-3">
+									<h5>Email:</h5>
+									<div className="input-group justify-content-center">
+										<span className="input-group-text iconos" id="basic-addon1">
+											<box-icon
+												className="input-group-text iconos"
+												name="user"
+											/>
+										</span>
+										<input
+											className="inputs col-5"
+											name="email"
+											placeholder="Email"
+											type="email"
+										/>
+									</div>
+								</div>
+
+								<div>
+									<h5>Password:</h5>
+									<div className="input-group justify-content-center">
+										<span className="input-group-text iconos" id="basic-addon1">
+											<box-icon
+												className="input-group-text iconos"
+												name="lock-open"
+											/>
+										</span>
+										<input
+											className="inputs col-5"
+											name="password"
+											placeholder="Password"
+											type="password"
+										/>
+									</div>
+								</div>
+							</div>
+							<button className="btn btn-success" type="submit">
+								Login
+							</button>
+						</form>
+						<div>
+							<Link to={'/signup'}>
+								<span>Not a user? SignUp</span>
+							</Link>
+						</div>
+					</div>
+				</div>
 			</div>
 		</>
 	);

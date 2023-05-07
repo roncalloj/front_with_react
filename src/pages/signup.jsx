@@ -1,39 +1,35 @@
 import React, { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Context } from '../store/appContext';
 
 export const Signup = () => {
 	const { store, actions } = useContext(Context);
+	const navigate = useNavigate();
 
 	const signup = async (e) => {
 		e.preventDefault();
-		console.log('entre en la función');
 
-		const data = new FormData(e.target);
-		console.log(data.get('password'));
-		let name = data.get('name');
-		let lastname = data.get('last_name');
-		let email = data.get('email');
-		let password = data.get('password');
+		const formData = new FormData(e.target);
+		let name = formData.get('name');
+		let lastname = formData.get('last_name');
+		let email = formData.get('email');
+		let password = formData.get('password');
 
-		let obj = {
+		let userData = {
 			name: name,
 			lastname: lastname,
 			email: email,
 			password: password,
-			roles: [],
+			//roles: [], // <-- editar esta parte
 		};
 
-		let response = await actions.fetchGenerico('users/signup', obj, 'POST');
+		let response = await actions.signup(userData);
 
-		if (response.ok) {
-			console.log(response.statusText);
-			response = await response.json();
+		if (response.validation === 'ok') {
 			alert(response.message);
+			navigate('/login');
 		} else {
-			response = await response.json();
-			if (response !== undefined) alert(response.message);
-			else alert('Internal error');
-			return;
+			alert(response);
 		}
 	};
 
@@ -60,7 +56,7 @@ export const Signup = () => {
 						<form onSubmit={(e) => signup(e)}>
 							<div className=" d-flex flex-column bd-highlight mb-3">
 								<div className="row d-flex my-3 me-0 justify-content-center">
-									<label className="input-label">Nombre:</label>
+									<label className="input-label">Name:</label>
 									<div className="input-group justify-content-center">
 										<span className="input-group-text iconos" id="basic-addon1">
 											<box-icon
@@ -71,13 +67,13 @@ export const Signup = () => {
 										<input
 											className="inputs col-5"
 											name="name"
-											placeholder="Escriba aquí su nombre"
+											placeholder="Name"
 											type="string"
 										/>
 									</div>
 								</div>
 								<div className="row d-flex mb-3 me-0 justify-content-center">
-									<label className="input-label">Apellido:</label>
+									<label className="input-label">Lastname:</label>
 									<div className="input-group justify-content-center">
 										<span className="input-group-text iconos" id="basic-addon1">
 											<box-icon
@@ -88,7 +84,7 @@ export const Signup = () => {
 										<input
 											className="inputs col-5"
 											name="last_name"
-											placeholder="Escriba aquí su apellido"
+											placeholder="Lastname"
 											type="string"
 										/>
 									</div>
@@ -105,13 +101,13 @@ export const Signup = () => {
 										<input
 											className="inputs col-5"
 											name="email"
-											placeholder="Escriba aquí su email"
+											placeholder="Email"
 											type="email"
 										/>
 									</div>
 								</div>
 								<div className="row d-flex mb-3 me-0 justify-content-center">
-									<label className="input-label">Contraseña:</label>
+									<label className="input-label">Password:</label>
 									<div className="input-group justify-content-center">
 										<span className="input-group-text iconos" id="basic-addon1">
 											<box-icon
@@ -122,47 +118,25 @@ export const Signup = () => {
 										<input
 											className="inputs col-5"
 											name="password"
-											placeholder="Escriba aquí su clave"
+											placeholder="Password"
 											type="password"
 										/>
 									</div>
 
 									<div>
 										<span id="passwordHelpInline" className="form-text">
-											Debe tener entre 8-20 caracteres
+											Must have 8-20 characters
 										</span>
 									</div>
 								</div>
 							</div>
-							<button className="btn buttonRegister" type="submit">
-								Registrarse
+							<button className="btn btn-primary" type="submit">
+								Register
 							</button>
 						</form>
 					</div>
 				</div>
 			</div>
-			{/* <div className="container">
-				<div className="row">
-					<div className="col-6">
-						<div class="mb-3">
-							<label for="" class="form-label">
-								Name
-							</label>
-							<input
-								type="text"
-								class="form-control"
-								name=""
-								id=""
-								aria-describedby="helpId"
-								placeholder=""
-							/>
-							<small id="helpId" class="form-text text-muted">
-								Help text
-							</small>
-						</div>
-					</div>
-				</div>
-			</div> */}
 		</div>
 	);
 };

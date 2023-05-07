@@ -5,33 +5,83 @@ const getState = ({ getStore, getActions, setStore }) => {
 			token: '',
 		},
 		actions: {
-			fetchGenerico: async (endpoint, data, metodo) => {
-				let url = 'http://localhost:3001/';
-				console.log(JSON.stringify(data));
-				let response = await fetch(url + endpoint, {
+			apiFetch: async (endpoint, metodo = 'GET', data = null) => {
+				const store = getStore();
+				let url = process.env.REACT_APP_BACKEND_URL;
+				let headers = {
+					'Content-Type': 'application/json',
+					'Access-Control-Allow-Origin': '*',
+				};
+				if (store.token) {
+					headers['Authorization'] = 'Bearer ' + store.token;
+				}
+				let request = {
 					method: metodo,
-					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify(data),
-				});
-				return response;
+					headers,
+				};
+				if (data) {
+					request.body = JSON.stringify(data);
+				}
+				return await fetch(url + endpoint, request);
 			},
-			login: async (endpoint, data, metodo) => {
-				let url = process.env.BACKEND_URL;
-				let response = await fetch(url + endpoint, {
-					method: metodo,
-					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify(data),
-				});
-				let responseJson = await response.json();
-				console.log(responseJson.token);
-				let token = responseJson.token;
-				setStore({ token: token }); //reseteo todo el store
-				return response;
+			signup: async (data) => {
+				for (const key in data) {
+					if (data[key] === '') return 'Fill all the fields';
+				}
+				let password = data.password.replaceAll(/\s/g, '');
+				if (password.length > 7) {
+					try {
+						let response = await getActions().apiFetch(
+							'users/signup',
+							'POST',
+							data
+						);
+						if (response.ok) {
+							let responseJson = await response.json();
+							return {
+								message:
+									responseJson.message + '. User registered successfully',
+								validation: 'ok',
+							};
+						} else {
+							let responseJson = await response.json();
+							if (responseJson !== undefined) return responseJson.message;
+							else return 'Internal error';
+						}
+					} catch (error) {
+						console.error({ error });
+					}
+				} else return 'Password must have at least 8 characters';
 			},
-
+			login: async (data) => {
+				const store = getStore();
+				try {
+					let response = await getActions().apiFetch('login', 'POST', data);
+					if (response.ok) {
+						let responseJson = await response.json();
+						setStore({
+							token: responseJson.token,
+							refresh_token: responseJson.refresh_token,
+							loginDate: Date.now(),
+						});
+						let infoRequest = await getActions().apiFetch('checkout');
+						if (infoRequest.ok) {
+							let userInfo = await infoRequest.json();
+							setStore({ ...store, user: userInfo.name }); //se añadela info del ususario al token
+							return 'ok';
+						} else return 'Access revoked';
+					} else {
+						let responseJson = await response.json();
+						if (responseJson !== undefined) return responseJson.message;
+						else return 'Internal error';
+					}
+				} catch (error) {
+					console.error({ error });
+				}
+			},
 			fetchProtegido: async (endpoint, data = undefined, metodo = 'GET') => {
 				const store = getStore();
-				let url = process.env.BACKEND_URL;
+				let url = process.env.REACT_APP_BACKEND_URL;
 				let encabezado = {
 					method: metodo,
 					headers: {

@@ -5,10 +5,11 @@ import injectContext from './store/appContext';
 import { Layout } from './layout';
 import { Home } from './pages/home';
 import { Signup } from './pages/signup';
+import { Login } from './pages/login';
 //import './styles/home.css';
 
 const AppRoutes = () => {
-	const basename = process.env.BASENAME || '';
+	const basename = process.env.REACT_APP_BASENAME || '';
 	return (
 		<>
 			<BrowserRouter basename={basename}>
@@ -16,6 +17,7 @@ const AppRoutes = () => {
 					<Route element={<Layout />}>
 						<Route index element={<Home />} />
 						<Route element={<Signup />} path="/signup" />
+						<Route element={<Login />} path="/login" />
 					</Route>
 				</Routes>
 			</BrowserRouter>
