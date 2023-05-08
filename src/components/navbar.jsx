@@ -4,17 +4,36 @@ import '../styles/home.css';
 
 export const Navbar = () => {
 	return (
-		<nav className="navbar navbar-expand navbar-light bg-light">
-			<div className="nav navbar-nav">
+		<nav className="navbar navbar-expand navbar-dark fixed-top bg-dark">
+			<div className="nav navbar-nav container-fluid">
 				<Link to={'/'} className="links">
-					<p className="nav-item nav-link active">Home</p>
+					<p className="navbar-brand nav-link active">Home</p>
 				</Link>
-				<Link to={'/signup'} className="links">
-					<p className="nav-item nav-link">Signup</p>
-				</Link>
-				<Link to={'/login'} className="links">
-					<p className="nav-item nav-link">Login</p>
-				</Link>
+				<button
+					className="navbar-toggler"
+					type="button"
+					data-bs-toggle="collapse"
+					data-bs-target="#navbarCollapse"
+					aria-controls="navbarCollapse"
+					aria-expanded="false"
+					aria-label="Toggle navigation"
+				>
+					<span className="navbar-toggler-icon"></span>
+				</button>
+				<div className="collapse navbar-collapse">
+					<ul className="navbar-nav me-auto mb-2 mb-md-0">
+						<li className="nav-item">
+							<Link to={'/signup'} className="links">
+								<p className="nav-item nav-link">Signup</p>
+							</Link>
+						</li>
+						<li className="nav-item">
+							<Link to={'/login'} className="links">
+								<p className="nav-item nav-link">Login</p>
+							</Link>
+						</li>
+					</ul>
+				</div>
 			</div>
 		</nav>
 	);

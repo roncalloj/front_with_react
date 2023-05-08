@@ -43,27 +43,15 @@ export const Signup = () => {
 					className="card text-center border-0"
 					style={{ minWidth: '50%', maxWidth: '100%', maxHeight: '100%' }}
 				>
-					<div
-						className="card-header cabezoteRegistro"
-						style={{ width: '100%' }}
-					>
+					<div className="card-header" style={{ width: '100%' }}>
 						<h3>Sign-up</h3>
 					</div>
-					<div
-						className="card-body cajatextoRegistro"
-						style={{ width: '100%' }}
-					>
+					<div className="card-body" style={{ width: '100%' }}>
 						<form onSubmit={(e) => signup(e)}>
 							<div className=" d-flex flex-column bd-highlight mb-3">
 								<div className="row d-flex my-3 me-0 justify-content-center">
 									<label className="input-label">Name:</label>
 									<div className="input-group justify-content-center">
-										<span className="input-group-text iconos" id="basic-addon1">
-											<box-icon
-												className="input-group-text iconos"
-												name="user"
-											/>
-										</span>
 										<input
 											className="inputs col-5"
 											name="name"
@@ -75,12 +63,6 @@ export const Signup = () => {
 								<div className="row d-flex mb-3 me-0 justify-content-center">
 									<label className="input-label">Lastname:</label>
 									<div className="input-group justify-content-center">
-										<span className="input-group-text iconos" id="basic-addon1">
-											<box-icon
-												className="input-group-text iconos"
-												name="user"
-											/>
-										</span>
 										<input
 											className="inputs col-5"
 											name="last_name"
@@ -92,12 +74,6 @@ export const Signup = () => {
 								<div className="row d-flex mb-3 me-0 justify-content-center">
 									<label className="input-label">Email:</label>
 									<div className="input-group justify-content-center">
-										<span className="input-group-text iconos" id="basic-addon1">
-											<box-icon
-												className="input-group-text iconos"
-												name="envelope"
-											/>
-										</span>
 										<input
 											className="inputs col-5"
 											name="email"
@@ -109,12 +85,6 @@ export const Signup = () => {
 								<div className="row d-flex mb-3 me-0 justify-content-center">
 									<label className="input-label">Password:</label>
 									<div className="input-group justify-content-center">
-										<span className="input-group-text iconos" id="basic-addon1">
-											<box-icon
-												className="input-group-text iconos"
-												name="lock-open"
-											/>
-										</span>
 										<input
 											className="inputs col-5"
 											name="password"

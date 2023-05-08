@@ -4,8 +4,8 @@ import injectContext from './store/appContext';
 
 import { Layout } from './layout';
 import { Home } from './pages/home';
-import { Signup } from './pages/signup';
 import { Login } from './pages/login';
+import { Signup } from './pages/signup';
 //import './styles/home.css';
 
 const AppRoutes = () => {

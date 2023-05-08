@@ -4,7 +4,7 @@ import { Navbar } from './components/navbar';
 
 export const Layout = () => {
 	return (
-		<div className="App">
+		<div className="App" style={{ backgroundColor: 'rgb(121, 166, 210)' }}>
 			<Navbar />
 			<Outlet />
 		</div>
