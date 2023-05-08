@@ -32,7 +32,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				if (password.length > 7) {
 					try {
 						let response = await getActions().apiFetch(
-							'users/signup',
+							'user/signup',
 							'POST',
 							data
 						);
@@ -56,7 +56,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 			login: async (data) => {
 				const store = getStore();
 				try {
-					let response = await getActions().apiFetch('login', 'POST', data);
+					let response = await getActions().apiFetch(
+						'user/login',
+						'POST',
+						data
+					);
 					if (response.ok) {
 						let responseJson = await response.json();
 						setStore({
